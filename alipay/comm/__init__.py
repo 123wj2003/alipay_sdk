@@ -1,2 +1,2 @@
 
-from .comm import Comm
+from .comm import Comm, isp_args

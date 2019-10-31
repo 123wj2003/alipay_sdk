@@ -3,6 +3,7 @@
 # @Author  : Kevin Kong (kfx2007@163.com)
 
 from alipay.comm import Comm
+from alipay.pay import Pay
 
 SANDBOX_URL = "https://openapi.alipaydev.com/gateway.do"
 URL = "https://openapi.alipay.com/gateway.do"
@@ -29,3 +30,4 @@ class AliPay(object):
         self.alipay_root_cert_sn = alipay_root_cert_sn
 
     comm = Comm()
+    pay = Pay()

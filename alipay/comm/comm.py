@@ -6,11 +6,34 @@ from Crypto.PublicKey import RSA
 from Crypto.Signature import PKCS1_v1_5
 from Crypto.Hash import SHA256, SHA
 import base64
+from itertools import zip_longest
+from datetime import datetime
+import requests
+import inspect
+
+
+def isp_args(func):
+
+    def inner(self, *args, **kwarg):
+        """
+        提交方法的装饰器
+        封装参数
+        """
+        ags = inspect.getfullargspec(func).args
+        ags.pop(0)
+        data = dict(zip_longest(ags, args))
+        data.update(kwarg)
+        data = {key: value for key, value in data.items() if value}
+        self.method = f"alipay.{func.__name__.replace('_','.')}"
+        self.data = data
+        return func(self, *args, **kwarg)
+    return inner
 
 
 class Comm(object):
 
     def __get__(self, instance, type):
+        self.url = instance.url
         self.appid = instance.appid
         self.app_private_key = instance.app_private_key
         self.sign_type = instance.sign_type
@@ -41,3 +64,41 @@ class Comm(object):
         else:
             to_sign = SHA256.new(str.encode('utf-8'))
         return base64.b64encode(PKCS1_v1_5.new(self.app_private_key).sign(to_sign)).decode("utf-8")
+
+    def _get_comm_args(self):
+        """
+        获取公共请求参数
+        """
+        data = {
+            "app_id": self.appid,
+            "format": "JSON",
+            "charset": "utf-8",
+            "sign_type": self.sign_type,
+            # "timestamp": datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S'),
+            "timestamp": "2019-10-31 09:18:05",
+            "version": "1.0",
+            "notify_url": None,
+            "app_auth_token": None,
+            "method": self.method
+        }
+
+        return data
+
+    def post(self):
+        """
+        提交请求的方法
+        参数：
+            data: 接口的参数数据
+        """
+        data = self._get_comm_args()
+        # data.update(self.data)
+        # 过滤参数为None的参数
+        data = {key: value for key, value in data.items() if value}
+        data["biz_content"] = self.data
+        print(self.url)
+        print(f"提交的参数：{data}")
+        print(self.get_signstr(data))
+        data["sign"] = self.gen(self.get_signstr(data))
+        print(data["sign"])
+        res = requests.post(self.url, data=data).content
+        return res
