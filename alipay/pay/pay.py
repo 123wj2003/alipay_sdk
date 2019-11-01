@@ -70,3 +70,17 @@ class Pay(Comm):
         if not trade_no and not out_trade_no:
             raise Exception("交易流水号和商户订单号不能同时为空")
         return self.post()
+
+    @isp_args
+    def trade_query(self, out_trade_no=None, trade_no=None, org_pid=None, query_options=None):
+        """
+        统一收单线下交易查询
+        参数：
+            out_trade_no：string 订单支付时传入的商户订单号,和支付宝交易号不能同时为空。
+            trade_no：string 支付宝交易号，和商户订单号不能同时为空
+            org_pid：string 银行间联模式下有用，其它场景请不要使用
+            query_options： string 查询选项，商户通过上送该字段来定制查询返回信息
+        """
+        if not trade_no and not out_trade_no:
+            raise Exception("交易流水号和商户订单号不能同时为空")
+        return self.post()
