@@ -5,6 +5,8 @@
 import unittest
 from Crypto.PublicKey import RSA
 from alipay.api import AliPay
+from autils.string import String
+import time
 
 
 class TestPay(unittest.TestCase):
@@ -14,19 +16,48 @@ class TestPay(unittest.TestCase):
         super(TestPay, cls).setUpClass()
         with open("private.txt", "r") as f:
             private_key = RSA.importKey(f.read())
-        cls.alipay = AliPay("2016101100664659", private_key, sandbox=True)
+        cls.alipay = AliPay("2016101100664659", private_key,
+                            sign_type="rsa2", sandbox=True)
+        cls.buyer_id = "2088102179514385"
+        cls.order_no = String.generate_digits(24)
+        print(f"测试订单：{cls.order_no}")
 
     def test_trade_create(self):
         """测试统一下单"""
-        res = self.alipay.pay.trade_create("1572515083020","10","test")
-        print(res)
+        # 测试不存在的用户
+        res = self.alipay.pay.trade_create(
+            self.order_no, 1.01, "测试统一下单", buyer_id="208810217951438X", product_code="FACE_TO_FACE_PAYMENT")
+        self.assertEqual(res["code"], "40004")
 
-    # def test_trade_pay(self):
-    #     """测试同一下单接口"""
-    #     res = self.alipay.pay.trade_pay(
-    #         "5887941a66988732489", "bar_code", "q212312", "48797", product_code="ABC")
-    #     print(res)
+        res = self.alipay.pay.trade_create(
+            self.order_no, 2.00, "测试统一下单", buyer_id=self.buyer_id, product_code="FACE_TO_FACE_PAYMENT")
+        self.assertEqual(res['code'], '10000')
+
+    def test_trade_pay(self):
+        """测试扫码付款"""
+        # 收款码错误
+        res = self.alipay.pay.trade_pay(
+            String.generate_digits(24), "bar_code", "28091756689709104X", "测试中文支付", total_amount=2)
+        self.assertEqual(res["code"], '40004')
+
+    def test_trade_close(self):
+        """
+        测试统一收单关闭接口
+        """
+        # 测试关闭订单
+        res = self.alipay.pay.trade_close(out_trade_no=self.order_no)
+        self.assertIn(res["code"], ['10000', '20000'])
+
+    def test_trade_query(self):
+        """统一收单线下交易查询"""
+        res = self.alipay.pay.trade_query(self.order_no)
+        self.assertEqual(res["code"], "10000")
 
 
 if __name__ == "__main__":
-    unittest.main()
+    suite = unittest.TestSuite()
+    suite.addTest(TestPay("test_trade_create"))
+    suite.addTest(TestPay("test_trade_close"))
+    suite.addTest(TestPay("test_trade_query"))
+    runner = unittest.TextTestRunner(verbosity=2)
+    runner.run(suite)

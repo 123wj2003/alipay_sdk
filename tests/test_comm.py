@@ -58,7 +58,7 @@ class TestComm(unittest.TestCase):
         }
 
         s = api.comm.get_signstr(data)
-        v_s = "UiAfIxH7qr0onTagAiTMMI/vtwI7vCYhY3RKAJk2n/skWSQFrFkjBONgCUaDO4GL8QKFn02MPrBe1nIQXsp48dC0eQ0BzL6SRPVPBlr2MxsWYhmX7Eq+WRl8rn16t9hq+8qYXwv43Q2U66PlaRfq34zU6108Djb0tZIKV9qokSvwFbNVcIrxbYJVkD18rHXyUIItEwAxJ7gCijaVQ66LIZ2xFONOGA4mQi3PDqcExDtpNgI5wouOWZo/BL/Alns5dEMLjuwWu1Qfa+Fc84KCZKSRYrHvfEMIc98Q9DRD0TjIntbeVLMVrADcfpCl6MPVHItUEaoNH9fzGdTEomQY8w=="
+        v_s = "b5UyLbGui7uUSK5bNZrxQO+wjI4XySnjpT9ODpPx0L45886RsPSfFWfTjXYzAkuRKADJrRYpkk41TBsUhhp4dLPJwU6H/R90NZgQ8hIxKn1in0+GK3hDEJOaiO+bEPLGSNAC2iiyAoEBz1llNkP6EQBgBi7JaiNaASBXrh0gFpZ7X8dKlTSsx7jeDYULlxKbS3EXaIZnx3Jnv/LDBjXuaWNjUoc7v8bLHF8LNDsOQ5MxuGdijVY/rOAnNocCCxYCuftErxhGtqCfxuhKdkLJc4+T5+5VejwR8wcUZLk1PYkU6sF7qs6+YfjLUyFFakLVCXx+BpzXrNDbQU49L1vXgA=="
         self.assertEqual(api.comm.gen(s),v_s)
 
     def test_sign_rsa2(self):
@@ -78,7 +78,7 @@ class TestComm(unittest.TestCase):
 
         s = api.comm.get_signstr(data)
         v = api.comm.gen(s)
-        v_s = "dZ0Zl4UdnqIFRywQCRJFJB5AWnMLjLtKdyyyfa5DX89pZgV/+FlKhDPOiHy0WzI7sXEyk10adyX8JekWtKXEmnrvWbiKM/bNiP+nTKxPH/YsFmW1+p6PSuLG2BUvBmlwX5j3u+CCSoWjAa4DsYqXd275sGoaF933wdrgUzIQMo5zspeAncjLepA6on1ZDYAaRRNfWL58XQKvg05iTSO9IpqQUoDhFPZ2NFahwMSCLsv8e1QHx3bFzqD0MVos12J2ez9WaELrcfz58IUO5utVbCIsFSHZJVmrk/bzcnK9GLDuemL/mD9qlQfzngm4XhyNopemo2naMlntj4OcoisZqA=="
+        v_s = "N/ZcddFYAgPCkHQE5GcvK0vqaxYJhTsAvP9E54Kd4iYcGWY6eWwS56UOyHFelCI7ONOhmHKz/vRTndBQngXoQYNq+U+/e/9wrS4uT/4VMWpnivegvooaVYnGgrdWBIseE33G41xlEZZLXnaA0KShC9H6n2vIrP9Jgx93g4mU2S+ExJttY4rtgQJoJXKlXV1a8DHMoXY5flLF6hbLOUzonLpCnwbdU7L2DV5pHkNwkP38iACqbbTqDy6SQyoFrOhkmZAk1J6m79oTB1lmekO56c+FjYPZ+hegEWVwYqM1cpB3JYUDVZ+EBTIUewOq3U+f8CreJkkf3OjI32d3mGFWCg=="
         self.assertEqual(api.comm.gen(s),v_s)
 
 
