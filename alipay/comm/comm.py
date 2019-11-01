@@ -10,6 +10,9 @@ from itertools import zip_longest
 from datetime import datetime
 import requests
 import inspect
+from urllib.parse import quote_plus, urlencode, quote
+import json
+# from html.parser import
 
 
 def isp_args(func):
@@ -74,8 +77,7 @@ class Comm(object):
             "format": "JSON",
             "charset": "utf-8",
             "sign_type": self.sign_type,
-            # "timestamp": datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S'),
-            "timestamp": "2019-10-31 09:18:05",
+            "timestamp": datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S'),
             "version": "1.0",
             "notify_url": None,
             "app_auth_token": None,
@@ -90,15 +92,11 @@ class Comm(object):
         参数：
             data: 接口的参数数据
         """
+
         data = self._get_comm_args()
-        # data.update(self.data)
         # 过滤参数为None的参数
         data = {key: value for key, value in data.items() if value}
-        data["biz_content"] = self.data
-        print(self.url)
-        print(f"提交的参数：{data}")
-        print(self.get_signstr(data))
+        data["biz_content"] = json.dumps(self.data)
         data["sign"] = self.gen(self.get_signstr(data))
-        print(data["sign"])
-        res = requests.post(self.url, data=data).content
-        return res
+        return requests.get(f"{self.url}?{urlencode(data)}",
+                            params=data).content.decode("utf-8")
