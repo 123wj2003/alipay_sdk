@@ -57,3 +57,16 @@ class Pay(Comm):
             advance_payment_type: 支付模式类型,若值为ENJOY_PAY_V2表示当前交易允许走先享后付2.0垫资
         """
         return self.post()
+
+    @isp_args
+    def trade_close(self, trade_no=None, out_trade_no=None, operator_id=None):
+        """
+        统一收单交易关闭接口
+        参数：
+            trade_no： string 64 该交易在支付宝系统中的交易流水号
+            out_trade_no: string 64 订单支付时传入的商户订单号,和支付宝交易号不能同时为空
+            operator_id: 卖家端自定义的的操作员 ID
+        """
+        if not trade_no and not out_trade_no:
+            raise Exception("交易流水号和商户订单号不能同时为空")
+        return self.post()

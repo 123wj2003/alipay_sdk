@@ -12,7 +12,7 @@ import requests
 import inspect
 from urllib.parse import quote_plus, urlencode, quote
 import json
-# from html.parser import
+import traceback
 
 
 def isp_args(func):
@@ -86,6 +86,16 @@ class Comm(object):
 
         return data
 
+    def _pre_response(self, response):
+        """
+        处理响应报文
+        """
+        if type(response) is not dict:
+            raise TypeError("服务器响应异常")
+
+        prefix = f"{self.method.replace('.','_')}_response"
+        return response.get(prefix)
+
     def post(self):
         """
         提交请求的方法
@@ -93,10 +103,13 @@ class Comm(object):
             data: 接口的参数数据
         """
 
-        data = self._get_comm_args()
-        # 过滤参数为None的参数
-        data = {key: value for key, value in data.items() if value}
-        data["biz_content"] = json.dumps(self.data)
-        data["sign"] = self.gen(self.get_signstr(data))
-        return requests.get(f"{self.url}?{urlencode(data)}",
-                            params=data).content.decode("utf-8")
+        try:
+            data = self._get_comm_args()
+            # 过滤参数为None的参数
+            data = {key: value for key, value in data.items() if value}
+            data["biz_content"] = json.dumps(self.data)
+            data["sign"] = self.gen(self.get_signstr(data))
+            return self._pre_response(requests.get(f"{self.url}?{urlencode(data)}",
+                                                   params=data).json())
+        except Exception as err:
+            raise Exception(f"接口请求错误：{traceback.format_exc()}")
