@@ -86,10 +86,10 @@ class Pay(Comm):
         return self.post()
 
     @isp_args
-    def trade_refund(self,refund_amount,out_trade_no=None,trade_no=None,
-            refund_currency=None,refund_reason=None,out_request_no=None,
-            operator_id=None,store_id=None,terminal_id=None,goods_detail=None,
-            refund_royalty_parameters=None):
+    def trade_refund(self, refund_amount, out_trade_no=None, trade_no=None,
+                     refund_currency=None, refund_reason=None, out_request_no=None,
+                     operator_id=None, store_id=None, terminal_id=None, goods_detail=None,
+                     refund_royalty_parameters=None):
         """
         统一收单交易退款接口
         参数：
@@ -104,6 +104,20 @@ class Pay(Comm):
             terminal_id: string 32 商户的终端编号
             goods_detail: list 退款包含的商品列表信息，Json格式。其它说明详见 https://docs.open.alipay.com/api_1/alipay.trade.refund
             refund_royalty_parameters: dict 退分账明细信息
+            org_pid: string 16 银行间联模式下有用，其它场景请不要使用；双联通过该参数指定需要退款的交易所属收单机构的pid;
+        """
+        if not trade_no and not out_trade_no:
+            raise Exception("支付宝交易号，和商户订单号不能同时为空")
+        return self.post()
+
+    @isp_args
+    def trade_fastpay_refund_query(self, out_request_no, trade_no=None, out_trade_no=None, org_pid=None):
+        """
+        统一收单交易退款查询
+        参数：
+            trade_no: string 64 支付宝交易号，和商户订单号不能同时为空
+            out_trade_no:  string 64 订单支付时传入的商户订单号,和支付宝交易号不能同时为空
+            out_request_no: string 64 请求退款接口时，传入的退款请求号，如果在退款请求时未传入，则该值为创建交易时的外部交易号
             org_pid: string 16 银行间联模式下有用，其它场景请不要使用；双联通过该参数指定需要退款的交易所属收单机构的pid;
         """
         if not trade_no and not out_trade_no:

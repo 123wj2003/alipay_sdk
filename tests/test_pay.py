@@ -55,8 +55,14 @@ class TestPay(unittest.TestCase):
 
     def test_trade_refund(self):
         """测试统一收单交易退款接口"""
-        #[FIX] 收款后状态再退款
+        # [FIX] 收款后状态再退款
         res = self.alipay.pay.trade_refund(1, out_trade_no=self.order_no)
+        self.assertEqual(res["code"], "10000")
+
+    def test_trade_refund_query(self):
+        """测试统一收单退款查询"""
+        res = self.alipay.pay.trade_fastpay_refund_query(
+            None, out_request_no=self.order_no)
         self.assertEqual(res["code"], "10000")
 
 
