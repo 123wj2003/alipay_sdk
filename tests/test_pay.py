@@ -53,11 +53,18 @@ class TestPay(unittest.TestCase):
         res = self.alipay.pay.trade_query(self.order_no)
         self.assertEqual(res["code"], "10000")
 
+    def test_trade_refund(self):
+        """测试统一收单交易退款接口"""
+        #[FIX] 收款后状态再退款
+        res = self.alipay.pay.trade_refund(1, out_trade_no=self.order_no)
+        self.assertEqual(res["code"], "10000")
+
 
 if __name__ == "__main__":
     suite = unittest.TestSuite()
     suite.addTest(TestPay("test_trade_create"))
-    suite.addTest(TestPay("test_trade_close"))
+    # suite.addTest(TestPay("test_trade_close"))
     suite.addTest(TestPay("test_trade_query"))
+    suite.addTest(TestPay("test_trade_refund"))
     runner = unittest.TextTestRunner(verbosity=2)
     runner.run(suite)
