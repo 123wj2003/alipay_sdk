@@ -123,3 +123,37 @@ class Pay(Comm):
         if not trade_no and not out_trade_no:
             raise Exception("支付宝交易号，和商户订单号不能同时为空")
         return self.post()
+
+    @isp_args
+    def trade_precreate(self, out_trade_no, total_amount, subject,
+                        goods_detail=None, discountable_amount=None,
+                        seller_id=None, body=None, product_code=None,
+                        operator_id=None, store_id=None, disable_pay_channels=None,
+                        enable_pay_channels=None, terminal_id=None,extend_params=None,
+                        timeout_express=None,settle_info=None,merchant_order_no=None,
+                        business_params=None,qr_code_timeout_express=None):
+        """
+        统一收单线下交易预创建
+        收银员通过收银台或商户后台调用支付宝接口，生成二维码后，展示给用户，由用户扫描二维码完成订单支付。
+        参数：
+            out_trade_no: string 64 商户订单号,64个字符以内、只能包含字母、数字、下划线；需保证在商户端不重复
+            total_amount: float 订单总金额，单位为元，精确到小数点后两位
+            subject: string 256 订单标题
+            goods_detail: list 订单包含的商品列表信息.json格式. 其它说明详见：“商品明细说明”
+            discountable_amount: float 可打折金额. 参与优惠计算的金额，单位为元，精确到小数点后两位
+            seller_id: string 28 卖家支付宝用户ID。 如果该值为空，则默认为商户签约账号对应的支付宝用户ID
+            body: string 128 对交易或商品的描述
+            product_code: 销售产品码。
+            operator_id: 商户操作员编号
+            store_id: 商户门店编号
+            disable_pay_channels:禁用渠道，用户不可用指定渠道支付当有多个渠道时用“,”分隔注，与enable_pay_channels互斥渠道列表：https://docs.open.alipay.com/common/wifww7
+            enable_pay_channels: string 128 可用渠道，用户只能在指定渠道范围内支付当有多个渠道时用“,”分隔注，与disable_pay_channels互斥渠道列表
+            terminal_id: string 32 商户机具终端编号
+            extend_params: dict 业务扩展参数 详细信息参考 https://docs.open.alipay.com/api_1/alipay.trade.precreate/
+            timeout_express: string 32 该笔订单允许的最晚付款时间，逾期将关闭交易。取值范围：1m～15d。m-分钟，h-小时，d-天，1c-当天（1c-当天的情况下，无论交易何时创建，都在0点关闭）。 该参数数值不接受小数点， 如 1.5h，可转换为 90m
+            settle_info: json 描述结算信息，json格式，详见结算参数说明
+            merchant_order_no: string 32 商户原始订单号，最大长度限制32位
+            business_params: json 商户传入业务信息，具体值要和支付宝约定，应用于安全，营销等参数直传场景，格式为json格式
+            qr_code_timeout_express: string 6 该笔订单允许的最晚付款时间，逾期将关闭交易，从生成二维码开始计时。取值范围：1m～15d。m-分钟，h-小时，d-天，1c-当天（1c-当天的情况下，无论交易何时创建，都在0点关闭）。 该参数数值不接受小数点， 如 1.5h，可转换为 90m。
+        """
+        return self.post()

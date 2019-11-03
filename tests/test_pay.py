@@ -41,9 +41,7 @@ class TestPay(unittest.TestCase):
         self.assertEqual(res["code"], '40004')
 
     def test_trade_close(self):
-        """
-        测试统一收单关闭接口
-        """
+        """测试统一收单关闭接口"""
         # 测试关闭订单
         res = self.alipay.pay.trade_close(out_trade_no=self.order_no)
         self.assertIn(res["code"], ['10000', '20000'])
@@ -65,12 +63,20 @@ class TestPay(unittest.TestCase):
             None, out_request_no=self.order_no)
         self.assertEqual(res["code"], "10000")
 
+    def test_precreate(self):
+        """统一收单线下交易预创建"""
+        res = self.alipay.pay.trade_precreate(
+            "12312415325465463424", 1.00, "测试预创建")
+        print(res)
+        self.assertEqual(res["code"], "10000")
+
 
 if __name__ == "__main__":
     suite = unittest.TestSuite()
-    suite.addTest(TestPay("test_trade_create"))
+    # suite.addTest(TestPay("test_trade_create"))
     # suite.addTest(TestPay("test_trade_close"))
-    suite.addTest(TestPay("test_trade_query"))
-    suite.addTest(TestPay("test_trade_refund"))
+    # suite.addTest(TestPay("test_trade_query"))
+    # suite.addTest(TestPay("test_trade_refund"))
+    suite.addTest(TestPay("test_precreate"))
     runner = unittest.TextTestRunner(verbosity=2)
     runner.run(suite)
