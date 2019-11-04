@@ -22,7 +22,9 @@ def isp_args(func):
         提交方法的装饰器
         封装参数
         """
+        print(args, kwarg)
         ags = inspect.getfullargspec(func).args
+        print(ags)
         ags.pop(0)
         data = dict(zip_longest(ags, args))
         data.update(kwarg)
@@ -96,20 +98,28 @@ class Comm(object):
         prefix = f"{self.method.replace('.','_')}_response"
         return response.get(prefix)
 
+    def _get_request_url(self):
+        """
+        生成请求地址
+        """
+        data = self._get_comm_args()
+        # 过滤参数为None的参数
+        data = {key: value for key, value in data.items() if value}
+        data["biz_content"] = json.dumps(self.data)
+        data["sign"] = self.gen(self.get_signstr(data))
+        return f"{self.url}?{urlencode(data)}"
+
     def post(self):
         """
         提交请求的方法
         参数：
             data: 接口的参数数据
         """
-
         try:
-            data = self._get_comm_args()
-            # 过滤参数为None的参数
-            data = {key: value for key, value in data.items() if value}
-            data["biz_content"] = json.dumps(self.data)
-            data["sign"] = self.gen(self.get_signstr(data))
-            return self._pre_response(requests.get(f"{self.url}?{urlencode(data)}",
-                                                   params=data).json())
+            response = requests.get(self._get_request_url())
+            print(f"当前请求地址：{self.url}")
+            print(f"当前请求数据：{data}")
+            print(response.content.decode('gbk'))
+            return self._pre_response(response.json())
         except Exception as err:
             raise Exception(f"接口请求错误：{traceback.format_exc()}")
