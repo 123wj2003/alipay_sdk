@@ -72,7 +72,7 @@ class TestPay(unittest.TestCase):
     def test_trade_page_pay(self):
         """测试统一下单并支付页面接口"""
         res = self.alipay.pay.trade_page_pay(
-            self.order_no, 3.00, "测试支付页面", product_code="FAST_INSTANT_TRADE_PAY")
+            "SO123", 10, "测试", product_code="FAST_INSTANT_TRADE_PAY")
         print(res)
 
 
@@ -83,6 +83,6 @@ if __name__ == "__main__":
     # suite.addTest(TestPay("test_trade_query"))
     # suite.addTest(TestPay("test_trade_refund"))
     # suite.addTest(TestPay("test_precreate"))
-    # suite.addTest(TestPay("test_trade_page_pay"))
+    suite.addTest(TestPay("test_trade_page_pay"))
     runner = unittest.TextTestRunner(verbosity=2)
     runner.run(suite)

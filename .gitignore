@@ -1,3 +1,6 @@
 **/**.pyc
 __pycache__
 demo
+dist
+*.egg-info
+*.log

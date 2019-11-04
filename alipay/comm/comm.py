@@ -117,9 +117,7 @@ class Comm(object):
         """
         try:
             response = requests.get(self._get_request_url())
-            print(f"当前请求地址：{self.url}")
-            print(f"当前请求数据：{data}")
-            print(response.content.decode('gbk'))
+            print(response.content)
             return self._pre_response(response.json())
         except Exception as err:
             raise Exception(f"接口请求错误：{traceback.format_exc()}")
