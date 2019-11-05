@@ -44,6 +44,8 @@ class Comm(object):
         self.sign_type = instance.sign_type
         self.alipay_root_cert_sn = instance.alipay_root_cert_sn
         self.app_cert_sn = instance.app_cert_sn
+        self.return_url = instance.return_url
+        self.notify_url = instance.notify_url
         return self
 
     def get_signstr(self, data):
@@ -81,7 +83,8 @@ class Comm(object):
             "sign_type": self.sign_type,
             "timestamp": datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S'),
             "version": "1.0",
-            "notify_url": None,
+            "notify_url": self.notify_url,
+            "return_url": self.return_url,
             "app_auth_token": None,
             "method": self.method
         }

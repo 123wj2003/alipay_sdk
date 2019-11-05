@@ -11,7 +11,10 @@ URL = "https://openapi.alipay.com/gateway.do"
 
 class AliPay(object):
 
-    def __init__(self, appid, app_private_key, sign_type="rsa", app_cert_sn=None, alipay_root_cert_sn=None, sandbox=False):
+    def __init__(self, appid, app_private_key,
+                 return_url=None, notify_url=None,
+                 sign_type="rsa", app_cert_sn=None, alipay_root_cert_sn=None,
+                 sandbox=False):
         """
         初始化API
         参数：
@@ -28,6 +31,8 @@ class AliPay(object):
         self.sign_type = sign_type.upper()
         self.app_cert_sn = app_cert_sn
         self.alipay_root_cert_sn = alipay_root_cert_sn
+        self.return_url = return_url
+        self.notify_url = notify_url
 
     comm = Comm()
     pay = Pay()
