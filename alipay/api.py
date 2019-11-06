@@ -12,7 +12,7 @@ URL = "https://openapi.alipay.com/gateway.do"
 class AliPay(object):
 
     def __init__(self, appid, app_private_key,
-                 return_url=None, notify_url=None,
+                 return_url=None, notify_url=None, ali_public_key=None,
                  sign_type="rsa", app_cert_sn=None, alipay_root_cert_sn=None,
                  sandbox=False):
         """
@@ -28,6 +28,7 @@ class AliPay(object):
         self.appid = appid
         self.url = SANDBOX_URL if sandbox else URL
         self.app_private_key = app_private_key
+        self.ali_public_key = ali_public_key
         self.sign_type = sign_type.upper()
         self.app_cert_sn = app_cert_sn
         self.alipay_root_cert_sn = alipay_root_cert_sn

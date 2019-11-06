@@ -10,7 +10,7 @@ from itertools import zip_longest
 from datetime import datetime
 import requests
 import inspect
-from urllib.parse import quote_plus, urlencode, quote
+from urllib.parse import quote_plus, urlencode, quote, unquote
 import json
 import traceback
 
@@ -22,9 +22,7 @@ def isp_args(func):
         提交方法的装饰器
         封装参数
         """
-        print(args, kwarg)
         ags = inspect.getfullargspec(func).args
-        print(ags)
         ags.pop(0)
         data = dict(zip_longest(ags, args))
         data.update(kwarg)
@@ -41,6 +39,7 @@ class Comm(object):
         self.url = instance.url
         self.appid = instance.appid
         self.app_private_key = instance.app_private_key
+        self.ali_public_key = instance.ali_public_key
         self.sign_type = instance.sign_type
         self.alipay_root_cert_sn = instance.alipay_root_cert_sn
         self.app_cert_sn = instance.app_cert_sn
@@ -110,6 +109,7 @@ class Comm(object):
         data = {key: value for key, value in data.items() if value}
         data["biz_content"] = json.dumps(self.data)
         data["sign"] = self.gen(self.get_signstr(data))
+        # [FIXME] urlencode方法不能处理/
         return f"{self.url}?{urlencode(data)}"
 
     def post(self):
@@ -124,3 +124,23 @@ class Comm(object):
             return self._pre_response(response.json())
         except Exception as err:
             raise Exception(f"接口请求错误：{traceback.format_exc()}")
+
+    def validate_sign(self, data):
+        """
+        验证异步回调数据
+        参数：
+            data: 支付宝异步回调的数据
+        详情：https://docs.open.alipay.com/270/105902/
+        """
+        try:
+            # 去除sign和sign_type
+            sign = base64.b64decode(data.pop("sign"))
+            sign_type = data.pop("sign_type")
+            # 将剩余参数进行urldecode，并按字典序排序
+            message = "&".join(
+                f"{k}={data[k]}" for k in sorted(data.keys())).encode("utf-8")
+            to_sign = SHA.new(
+                message) if sign_type == "RSA" else SHA256.new(message)
+            return PKCS1_v1_5.new(self.ali_public_key).verify(to_sign, sign)
+        except Exception as err:
+            raise Exception(f"异步验证失败：{traceback.format_exc()}")
