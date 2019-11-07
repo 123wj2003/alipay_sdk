@@ -72,7 +72,7 @@ class TestPay(unittest.TestCase):
             String.generate_digits(24), 1.00, "测试预创建")
         # 沙箱接口一定几率返回None
         if res:
-            self.assertEqual(res["code"], ["10000",'20000'], msg=res)
+            self.assertIn(res["code"], ["10000",'20000'], msg=res)
 
     def test_trade_page_pay(self):
         """测试统一下单并支付页面接口"""
