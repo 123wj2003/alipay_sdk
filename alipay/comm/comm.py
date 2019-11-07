@@ -2,7 +2,6 @@
 # @Time    : 2019-09-12
 # @Author  : Kevin Kong (kfx2007@163.com)
 
-from Crypto.PublicKey import RSA
 from Crypto.Signature import PKCS1_v1_5
 from Crypto.Hash import SHA256, SHA
 import base64
@@ -40,6 +39,8 @@ class Comm(object):
         self.url = instance.url
         self.appid = instance.appid
         self.app_private_key = instance.app_private_key
+        # print('-----')
+        # print(type(instance.app_private_key))
         self.ali_public_key = instance.ali_public_key
         self.sign_type = instance.sign_type
         self.alipay_root_cert_sn = instance.alipay_root_cert_sn

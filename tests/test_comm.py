@@ -22,6 +22,28 @@ class TestComm(unittest.TestCase):
         cls.alipay_rsa = AliPay(
             "2016101100664659", private_key, ali_public_key=publick_key, sandbox=True)
 
+    def test_key_str(self):
+        """测试以文本方式导入密钥"""
+        key = """-----BEGIN RSA PRIVATE KEY-----
+MIIEpAIBAAKCAQEAqslYYdOaHG1c6jNpyUfPw5bNPwCPN8gczE6ezPRf0Ud9KK9DiZIlafNU12IC+x/eLrmtgVdC339l+2dmSB9jDx1gmmYZv5kNx//E+aeohYv2mPD1ITN72qkZMs3NwggDHYpg+BACfFcYfUBMqdozEkm9Ow7srROdQR3ekRlvvq2dGDqjol/UzwkwiVfgbzQiBwAsw6znyXRfn7iT7+9c1+CfxiOTxlVCMa6z0ZTXDEvfPU2ElcHtYpXYGediHikEIrOnEhNX8pnLINguGsLwu0iN9+vx1h2FfnY8gx3f3yTFpPhapFGGpgx4jQrVi/mxVMZi8pqFrKA+v5ud5mHLBwIDAQABAoIBABWjzX8XwL85XDyQpybJ4pl10ivZdkwrHvsEOzrc/AcYd9Nf4b7ctcDnBCkGUjpfn1dsT3/D/sUy70kboOoij/qqTkNCDKEqU4Sz89FuXPwO8AARB/5c96SNKJQ3X4rmWP61OfQ0kxwOLRwxuYUMEMyQa1nAWlzTz2kgz8Ky5mXShKRkb+jdY+9gJhG1goGGqlfFUmPsKpedW18Umh0u3zSBm6ppY79Y+T1BO+sYG6bYDPZoEdOZwIR/qhA2UK6NyRsNLpIEksNRAeauYM/00E4tw88NvjUwHuLvTwQzNh6jbL5QR6dfBuipmxGvGpjAtqG0KDwi+ncT+bUiD6R9wgECgYEA4NRTSwUPmOQTZquT2hvlQSr5iTqqO0cNbVxaaDrl3XecsDdil2nvimfRrxUMwj9ISypGrgIKHhFkcfm4t0ShS7HWMiExsmiyLUx5/ukv4Fvf8B3cbU9Gkcr3SAj9M5QKWONJsKs7wWCZ2SopikPLxwhjgicnIM8LlVYx1Zyla9cCgYEAwnbsJWYm5jDgaSF6ZksiHpCRbH+u3bfsCJHL4igummanEzHdpsIb9UDokuhOp9LRpGY7XOBPHM/0R4wxmW+G/bezO791eeOPp/NvN6FexU40RSnrmCqm+wF8bbW+MmbsscJEbg2YiVmnx3w3PD33LslXOhCnecP6vdkFAsiVNFECgYEAz11GTaUnU57Y/hM2VS7xbf/TE+0V4YKRMdLCV+wq4u9Vh3ot5vWASCmlTlSd5fM0HI+rjQa4ii8Ec9MduXsFQamOo8HV8nV6ESm+Q4yT6d0TWIZSLke2EPYgyUHxN0dNm9pWtynX/W25uICYu7v4EWT9UqgGAM62IlDTue+26xUCgYEAvYq4ZUOKCrf9I7tz2BzHZs82T3CseoN4Vmn1NbxAoFIJ6xWhm5Z7NbNMfVRcxgsgN4NFvSMNOWIgEVS+S3V/N/FDi6rz0BhTvznxX2G0Q9AT9o4Dik+YbfNm2nBYsDvN3P0jQbmSwd1XQYL7O4aSVVH96SSueGrjDQRoc+waMeECgYBV6L539J4DYhgcypAtooFgIEShHP5kVgRE5I+Sgx5kU5LtEa9dP+6tS3nkEDezWDqCl8L9imKuSEoFwYi6kCwyfbtufs5lTTeWwzwwKQb6pXVs6vWjQNbWFjY0VQLErlQVJA1MSgOBC4/D4FKJtwc2rNWHPcjh6VMXhPmcXogoBw==
+-----END RSA PRIVATE KEY-----
+        """
+
+        alipay = AliPay("2016101100664659", key,
+                        sign_type="rsa2", sandbox=True)
+
+        res = alipay.pay.trade_query("12345")
+        self.assertEqual(res["code"], '40004', res)
+
+    def test_key_outheader(self):
+        """以无格式方式测试"""
+
+        key = """MIIEpAIBAAKCAQEAqslYYdOaHG1c6jNpyUfPw5bNPwCPN8gczE6ezPRf0Ud9KK9DiZIlafNU12IC+x/eLrmtgVdC339l+2dmSB9jDx1gmmYZv5kNx//E+aeohYv2mPD1ITN72qkZMs3NwggDHYpg+BACfFcYfUBMqdozEkm9Ow7srROdQR3ekRlvvq2dGDqjol/UzwkwiVfgbzQiBwAsw6znyXRfn7iT7+9c1+CfxiOTxlVCMa6z0ZTXDEvfPU2ElcHtYpXYGediHikEIrOnEhNX8pnLINguGsLwu0iN9+vx1h2FfnY8gx3f3yTFpPhapFGGpgx4jQrVi/mxVMZi8pqFrKA+v5ud5mHLBwIDAQABAoIBABWjzX8XwL85XDyQpybJ4pl10ivZdkwrHvsEOzrc/AcYd9Nf4b7ctcDnBCkGUjpfn1dsT3/D/sUy70kboOoij/qqTkNCDKEqU4Sz89FuXPwO8AARB/5c96SNKJQ3X4rmWP61OfQ0kxwOLRwxuYUMEMyQa1nAWlzTz2kgz8Ky5mXShKRkb+jdY+9gJhG1goGGqlfFUmPsKpedW18Umh0u3zSBm6ppY79Y+T1BO+sYG6bYDPZoEdOZwIR/qhA2UK6NyRsNLpIEksNRAeauYM/00E4tw88NvjUwHuLvTwQzNh6jbL5QR6dfBuipmxGvGpjAtqG0KDwi+ncT+bUiD6R9wgECgYEA4NRTSwUPmOQTZquT2hvlQSr5iTqqO0cNbVxaaDrl3XecsDdil2nvimfRrxUMwj9ISypGrgIKHhFkcfm4t0ShS7HWMiExsmiyLUx5/ukv4Fvf8B3cbU9Gkcr3SAj9M5QKWONJsKs7wWCZ2SopikPLxwhjgicnIM8LlVYx1Zyla9cCgYEAwnbsJWYm5jDgaSF6ZksiHpCRbH+u3bfsCJHL4igummanEzHdpsIb9UDokuhOp9LRpGY7XOBPHM/0R4wxmW+G/bezO791eeOPp/NvN6FexU40RSnrmCqm+wF8bbW+MmbsscJEbg2YiVmnx3w3PD33LslXOhCnecP6vdkFAsiVNFECgYEAz11GTaUnU57Y/hM2VS7xbf/TE+0V4YKRMdLCV+wq4u9Vh3ot5vWASCmlTlSd5fM0HI+rjQa4ii8Ec9MduXsFQamOo8HV8nV6ESm+Q4yT6d0TWIZSLke2EPYgyUHxN0dNm9pWtynX/W25uICYu7v4EWT9UqgGAM62IlDTue+26xUCgYEAvYq4ZUOKCrf9I7tz2BzHZs82T3CseoN4Vmn1NbxAoFIJ6xWhm5Z7NbNMfVRcxgsgN4NFvSMNOWIgEVS+S3V/N/FDi6rz0BhTvznxX2G0Q9AT9o4Dik+YbfNm2nBYsDvN3P0jQbmSwd1XQYL7O4aSVVH96SSueGrjDQRoc+waMeECgYBV6L539J4DYhgcypAtooFgIEShHP5kVgRE5I+Sgx5kU5LtEa9dP+6tS3nkEDezWDqCl8L9imKuSEoFwYi6kCwyfbtufs5lTTeWwzwwKQb6pXVs6vWjQNbWFjY0VQLErlQVJA1MSgOBC4/D4FKJtwc2rNWHPcjh6VMXhPmcXogoBw=="""
+
+        with self.assertRaises(ValueError):
+            alipay = AliPay("2016101100664659", key,
+                            sign_type="rsa2", sandbox=True)
+
     def test_sign(self):
         """RSA生成待签名字符"""
         self.api = AliPay("2014072300007148", None, sandbox=True)
