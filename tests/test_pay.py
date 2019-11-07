@@ -27,11 +27,11 @@ class TestPay(unittest.TestCase):
         """测试统一下单"""
         # 测试不存在的用户
         res = self.alipay.pay.trade_create(
-            self.order_no, 1.01, "测试统一下单", buyer_id="208810217951438X", product_code="FACE_TO_FACE_PAYMENT")
+            self.order_no, 1.01, "测试统一下单", buyer_id="208810217951438X")
         self.assertEqual(res["code"], "40004")
 
         res = self.alipay.pay.trade_create(
-            self.order_no, 2.00, "测试统一下单", buyer_id=self.buyer_id, product_code="FACE_TO_FACE_PAYMENT")
+            self.order_no, 2.00, "测试统一下单", buyer_id=self.buyer_id)
         self.assertEqual(res['code'], '10000')
 
     def test_trade_pay(self):
@@ -72,20 +72,20 @@ class TestPay(unittest.TestCase):
             String.generate_digits(24), 1.00, "测试预创建")
         # 沙箱接口一定几率返回None
         if res:
-            self.assertIn(res["code"], ["10000",'20000'], msg=res)
+            self.assertIn(res["code"], ["10000", '20000'], msg=res)
 
     def test_trade_page_pay(self):
         """测试统一下单并支付页面接口"""
         # 接口返回的是URL连接，因此不报错即认为测试通过
         res = self.alipay.pay.trade_page_pay(
-            "SO123", 10, "测试", product_code="FAST_INSTANT_TRADE_PAY")
+            "SO123", 10, "测试")
         self.assertTrue(res)
 
 
 if __name__ == "__main__":
     suite = unittest.TestSuite()
-    # suite.addTest(TestPay("test_trade_create"))
-    suite.addTest(TestPay("test_trade_close"))
+    suite.addTest(TestPay("test_trade_create"))
+    # suite.addTest(TestPay("test_trade_close"))
     # suite.addTest(TestPay("test_trade_query"))
     # suite.addTest(TestPay("test_trade_refund"))
     # suite.addTest(TestPay("test_precreate"))

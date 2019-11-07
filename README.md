@@ -58,5 +58,5 @@ alipay = Alipay("12345",private_key,private_key,
 
 ```python
 res = alipay.pay.trade_create(self.alipay.pay.trade_create(
-        "5489763229687797", 1.01, "测试统一下单", buyer_id="208810217951438X", product_code="FACE_TO_FACE_PAYMENT"))
+        "5489763229687797", 1.01, "测试统一下单", buyer_id="208810217951438X"))
 ```

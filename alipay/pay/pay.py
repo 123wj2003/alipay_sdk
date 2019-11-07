@@ -14,7 +14,7 @@ class Pay(Comm):
     @isp_args
     def trade_create(self, out_trade_no, total_amount, subject,
                      body=None, buyer_id=None, discountable_amount=None, seller_id=None,
-                     goods_detail=None, product_code=None, operator_id=None, store_id=None, terminal_id=None,
+                     goods_detail=None, product_code="FACE_TO_FACE_PAYMENT", operator_id=None, store_id=None, terminal_id=None,
                      extend_params=None, timeout_express=None, settle_info=None, logistics_detail=None, business_params=None,
                      receiver_address_info=None):
         """

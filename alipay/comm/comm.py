@@ -22,9 +22,10 @@ def isp_args(func):
         提交方法的装饰器
         封装参数
         """
+        vals = tuple(list(args) + list(inspect.getfullargspec(func).defaults))
         ags = inspect.getfullargspec(func).args
         ags.pop(0)
-        data = dict(zip_longest(ags, args))
+        data = dict(zip_longest(ags, vals))
         data.update(kwarg)
         data = {key: value for key, value in data.items() if value}
         self.method = f"alipay.{func.__name__.replace('_','.')}"
