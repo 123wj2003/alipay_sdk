@@ -1,2 +1,5 @@
 autils>=0.2.8
 pycryptodome
+pytest
+coverage
+python-coveralls
