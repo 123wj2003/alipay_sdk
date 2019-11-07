@@ -1,2 +1,3 @@
-pycryptodome
+requests
 autils>=0.2.6
+pycryptodome
