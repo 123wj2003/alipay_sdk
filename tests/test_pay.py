@@ -5,6 +5,7 @@
 import unittest
 from Crypto.PublicKey import RSA
 from alipay.api import AliPay
+from autils import string
 from autils.string import String
 import time
 
