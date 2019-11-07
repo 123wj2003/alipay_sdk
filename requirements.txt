@@ -1,2 +1,2 @@
-autils>=0.2.7
+autils>=0.2.8
 pycryptodome
