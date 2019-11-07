@@ -42,9 +42,11 @@ setup(
     include_package_data= True,
     install_requires=[
         'requests',
+        'pycryptodome'
     ],
     setup_requires=[
         'requests',
+        'pycryptodome'
     ],
     zip_safe= True,
 )

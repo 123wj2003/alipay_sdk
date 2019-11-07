@@ -10,6 +10,18 @@ import unittest
 
 class TestComm(unittest.TestCase):
 
+    @classmethod
+    def setUpClass(cls):
+        super(TestComm, cls).setUpClass()
+        with open("private.txt", "r") as f:
+            private_key = RSA.importKey(f.read())
+        with open("public.txt", "r") as f:
+            publick_key = RSA.importKey(f.read())
+        cls.alipay = AliPay("2016101100664659", private_key,
+                            sign_type="rsa2", ali_public_key=publick_key, sandbox=True)
+        cls.alipay_rsa = AliPay(
+            "2016101100664659", private_key, ali_public_key=publick_key, sandbox=True)
+
     def test_sign(self):
         """RSA生成待签名字符"""
         self.api = AliPay("2014072300007148", None, sandbox=True)
@@ -43,11 +55,7 @@ class TestComm(unittest.TestCase):
         self.assertEqual(a, s)
 
     def test_sign_rsa(self):
-        """验证签名"""
-        with open("private.txt", "r") as f:
-            private_key = RSA.importKey(f.read())
-        api = AliPay("2016101100664659", private_key, sandbox=True)
-
+        """RSA验证签名"""
         data = {
             "method": "alipay.mobile.public.menu.add",
             "charset": 'GBK',
@@ -57,16 +65,12 @@ class TestComm(unittest.TestCase):
             "version": "1.0"
         }
 
-        s = api.comm.get_signstr(data)
+        s = self.alipay_rsa.comm.get_signstr(data)
         v_s = "b5UyLbGui7uUSK5bNZrxQO+wjI4XySnjpT9ODpPx0L45886RsPSfFWfTjXYzAkuRKADJrRYpkk41TBsUhhp4dLPJwU6H/R90NZgQ8hIxKn1in0+GK3hDEJOaiO+bEPLGSNAC2iiyAoEBz1llNkP6EQBgBi7JaiNaASBXrh0gFpZ7X8dKlTSsx7jeDYULlxKbS3EXaIZnx3Jnv/LDBjXuaWNjUoc7v8bLHF8LNDsOQ5MxuGdijVY/rOAnNocCCxYCuftErxhGtqCfxuhKdkLJc4+T5+5VejwR8wcUZLk1PYkU6sF7qs6+YfjLUyFFakLVCXx+BpzXrNDbQU49L1vXgA=="
-        self.assertEqual(api.comm.gen(s), v_s)
+        self.assertEqual(self.alipay_rsa.comm.gen(s), v_s)
 
     def test_sign_rsa2(self):
         """RSA2签名验证"""
-        with open("private.txt", "r") as f:
-            private_key = RSA.importKey(f.read())
-        api = AliPay("2016101100664659", private_key,
-                     sign_type="rsa2", sandbox=True)
 
         data = {
             "method": "alipay.mobile.public.menu.add",
@@ -77,10 +81,9 @@ class TestComm(unittest.TestCase):
             "version": "1.0"
         }
 
-        s = api.comm.get_signstr(data)
-        v = api.comm.gen(s)
+        s = self.alipay.comm.get_signstr(data)
         v_s = "N/ZcddFYAgPCkHQE5GcvK0vqaxYJhTsAvP9E54Kd4iYcGWY6eWwS56UOyHFelCI7ONOhmHKz/vRTndBQngXoQYNq+U+/e/9wrS4uT/4VMWpnivegvooaVYnGgrdWBIseE33G41xlEZZLXnaA0KShC9H6n2vIrP9Jgx93g4mU2S+ExJttY4rtgQJoJXKlXV1a8DHMoXY5flLF6hbLOUzonLpCnwbdU7L2DV5pHkNwkP38iACqbbTqDy6SQyoFrOhkmZAk1J6m79oTB1lmekO56c+FjYPZ+hegEWVwYqM1cpB3JYUDVZ+EBTIUewOq3U+f8CreJkkf3OjI32d3mGFWCg=="
-        self.assertEqual(api.comm.gen(s), v_s)
+        self.assertEqual(self.alipay.comm.gen(s), v_s)
 
     def test_validate_sign(self):
         """异步回调验签"""
@@ -111,14 +114,7 @@ class TestComm(unittest.TestCase):
             'seller_id': '2088102179155775'
         }
 
-        with open("private.txt", "r") as f:
-            private_key = RSA.importKey(f.read())
-        with open("public.txt", "r") as f:
-            publick_key = RSA.importKey(f.read())
-        api = AliPay("2016101100664659", private_key,
-                     sign_type="rsa2", ali_public_key=publick_key, sandbox=True)
-
-        self.assertTrue(api.comm.validate_sign(data))
+        self.assertTrue(self.alipay.comm.validate_sign(data))
 
 
 if __name__ == "__main__":

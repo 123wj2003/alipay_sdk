@@ -1,0 +1,19 @@
+language: python
+notifications:
+  email: false
+sudo: false
+python:
+- 3.6
+install:
+- pip install -r requirements.txt
+script:
+- python3 -m unittest discover tests
+deploy:
+  provider: pypi
+  user: blackcat
+  true:
+    python: 3.6
+    tags: true
+    branch: master
+  password:
+    secure: QbS6+miA1OM3LYEto74zKgV+m2Qrbpx3xr3sSyjIKt9u7+c/RmkMvg7BL80hUoZO8JPg8VhIuuXVTkUoGnMYngBl5j6/X93ZcE1DWqtXkOOzMT9fbE/JpS8DPh5Zv5oKd5ea5y16U+8JIHgHkqpyyajWUCnhlUi3Dp/+h/A74YAo13nxsy4V1Zc9GUfSTzxlrtl+KiDvHjo91Db3Q/Sek24hvSWdB1ssyUlzP0zaj9qqtf1m2PC+jSjSttDKJEHTUBDaR5lA/AxwGC97AEik3CtgA0Zo5Pm4EAoSLtW1oWtElJyMD2GCcbV9Q1Kw+kOP5qYc+SAAdHwPVGn8+KxKwOVKR27rWutkhcrOBR8nLGDaUHkJ883EpW5D4r4FtrkMSThTb8hPLNv91aDZc6Lktwl2/a1sSxsfRAhAarN2vFD3kUxN8THs2qLPPqGHFEao4Lug6ufzOQHrcijxPYWG+9Zs67/tWE+S5P1dleAzuTzxIQ2POKGFyluQ3EyzSBDVhV7wMrDCfKkVSw5nbgnqvrlNm+J6aIVbA2cUE+GkrF/2/mzk0Gj+6JXiZRlDuVLVts+jkHbtISg+LPcd5S8Np0ZjHquP6UqDesEX3MvkGLGtM10S7GVe6aRv1tV1Vw+3LAhvXKerqOTF6w/n2+eLl84P4ZMO56Bk4UI7SQ+TJDI=

@@ -4,3 +4,4 @@ demo
 dist
 *.egg-info
 *.log
+.eggs
