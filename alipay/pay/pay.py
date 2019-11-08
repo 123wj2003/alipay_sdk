@@ -234,3 +234,30 @@ class Pay(Comm):
             order_biz_info: string 2018 商户传入同步信息，具体值要和支付宝约定；用于芝麻信用租车、单次授权等信息同步场景，格式为json格式。
         """
         return self.post()
+
+    @isp_args
+    def trade_page_refund(self, out_request_no, refund_amount,
+                          trade_no=None, out_trade_no=None, biz_type=None,
+                          refund_reason=None, operator_id=None, store_id=None,
+                          terminal_id=None, extend_params=None):
+        """
+        统一收单退款页面接口
+        当交易发生之后一段时间内，由于买家或者卖家的原因需要退款时，卖家可以通过退款页面接口将支付款退还给买家，支付宝将在收到退款请求并且验证成功之后，按照退款规则将支付款按原路退到买家帐号上。 目前该接口用于信用退款场景，通过biz_type指定信用退款。支付宝页面会提示用户退款成功或失败，退款处理完成后支付宝回跳到商户请求指定的回跳地址页面。
+        参数：
+            out_request_no: string 64 标识一次退款请求，同一笔交易多次退款需要保证唯一
+            refund_amount: float 需要退款的金额，该金额不能大于订单金额,单位为元，支持两位小数
+            trade_no: string 64 支付宝交易号，和商户订单号不能同时为空
+            out_trade_no: string 64 支付宝交易号，和商户订单号不能同时为空
+            biz_type: string 32 退款场景。信用退款传CREDIT_REFUND；
+            refund_reason: string 256 退款的原因说明
+            operator_id: string 30 商户的操作员编号
+            store_id: string 32 商户的门店编号
+            terminal_id: string 32 商户的终端编号
+            extend_params: json 	业务扩展参数
+        详情参考： https://docs.open.alipay.com/api_1/alipay.trade.page.refund
+        返回：
+            退款页面，应用程序直接请求即可
+        """
+        if not trade_no and not out_trade_no:
+            raise Exception("支付宝交易号，和商户订单号不能同时为空")
+        return self._get_request_url()

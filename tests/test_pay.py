@@ -88,6 +88,13 @@ class TestPay(unittest.TestCase):
                                                    "12345", "CREDIT_AUTH")
         self.assertEqual(res["code"], "40004", msg=res)
 
+    def test_trade_page_refund(self):
+        """测试统一收单退款页面接口"""
+        # [FIXME] 沙箱环境返回了错误的方法名，需要验证
+        res = self.alipay.pay.trade_page_refund(
+            String.generate_digits(24), 1.00, out_trade_no=self.order_no)
+        self.assertTrue(res)
+
 
 if __name__ == "__main__":
     suite = unittest.TestSuite()
@@ -97,6 +104,7 @@ if __name__ == "__main__":
     # suite.addTest(TestPay("test_trade_refund"))
     # suite.addTest(TestPay("test_precreate"))
     # suite.addTest(TestPay("test_trade_page_pay"))
-    suite.addTest(TestPay("test_trade_orderinfo_sync"))
+    # suite.addTest(TestPay("test_trade_orderinfo_sync"))
+    suite.addTest(TestPay("test_trade_page_refund"))
     runner = unittest.TextTestRunner(verbosity=2)
     runner.run(suite)
