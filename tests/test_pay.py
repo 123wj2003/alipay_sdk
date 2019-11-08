@@ -81,14 +81,22 @@ class TestPay(unittest.TestCase):
             "SO123", 10, "测试")
         self.assertTrue(res)
 
+    def test_trade_orderinfo_sync(self):
+        """测试支付宝订单信息同步接口"""
+        # 伪造的订单号，交易不存在
+        res = self.alipay.pay.trade_orderinfo_sync(self.order_no,
+                                                   "12345", "CREDIT_AUTH")
+        self.assertEqual(res["code"], "40004", msg=res)
+
 
 if __name__ == "__main__":
     suite = unittest.TestSuite()
     # suite.addTest(TestPay("test_trade_create"))
     # suite.addTest(TestPay("test_trade_close"))
-    suite.addTest(TestPay("test_trade_query"))
+    # suite.addTest(TestPay("test_trade_query"))
     # suite.addTest(TestPay("test_trade_refund"))
     # suite.addTest(TestPay("test_precreate"))
     # suite.addTest(TestPay("test_trade_page_pay"))
+    suite.addTest(TestPay("test_trade_orderinfo_sync"))
     runner = unittest.TextTestRunner(verbosity=2)
     runner.run(suite)

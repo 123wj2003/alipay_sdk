@@ -218,3 +218,19 @@ class Pay(Comm):
             拼接好的URL,由应用程序直接发起请求即可
         """
         return self._get_request_url()
+
+    @isp_args
+    def trade_orderinfo_sync(self, trade_no, out_request_no, biz_type, orig_request_no=None, order_biz_info=None):
+        """
+        支付宝订单信息同步接口
+        该接口用于商户向支付宝同步该笔订单相关业务信息
+        参数：
+            trade_no: string 64 支付宝交易号
+            out_request_no: string 64 标识一笔交易多次请求，同一笔交易多次信息同步时需要保证唯一
+            biz_type: string 64 交易信息同步对应的业务类型，具体值与支付宝约定；
+                                信用授权场景下传CREDIT_AUTH
+                                信用代扣场景下传CREDIT_DEDUCT
+            orig_request_no: string 64 原始业务请求单号。如对某一次退款进行履约时，该字段传退款时的退款请求号
+            order_biz_info: string 2018 商户传入同步信息，具体值要和支付宝约定；用于芝麻信用租车、单次授权等信息同步场景，格式为json格式。
+        """
+        return self.post()
