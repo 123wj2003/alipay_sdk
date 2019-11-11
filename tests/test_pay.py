@@ -95,6 +95,14 @@ class TestPay(unittest.TestCase):
             String.generate_digits(24), 1.00, out_trade_no=self.order_no)
         self.assertTrue(res)
 
+    def test_trade_orer_settle(self):
+        """测试统一交易结算接口"""
+        # [FIXME] 没有分账业务类型
+        res = self.alipay.pay.trade_order_settle(String.generate_digits(24), trade_no="2019110822001414381000134139", royalty_parameters=[{
+            "trans_in": "2088102179155775"
+        }])
+        self.assertEqual(res["code"], "40004", res)
+
 
 if __name__ == "__main__":
     suite = unittest.TestSuite()
@@ -105,6 +113,7 @@ if __name__ == "__main__":
     # suite.addTest(TestPay("test_precreate"))
     # suite.addTest(TestPay("test_trade_page_pay"))
     # suite.addTest(TestPay("test_trade_orderinfo_sync"))
-    suite.addTest(TestPay("test_trade_page_refund"))
+    # suite.addTest(TestPay("test_trade_page_refund"))
+    suite.addTest(TestPay("test_trade_orer_settle"))
     runner = unittest.TextTestRunner(verbosity=2)
     runner.run(suite)

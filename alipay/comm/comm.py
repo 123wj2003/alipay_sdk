@@ -111,6 +111,7 @@ class Comm(object):
         data = {key: value for key, value in data.items() if value}
         data["biz_content"] = json.dumps(self.data)
         data["sign"] = self.gen(self.get_signstr(data))
+        print(data)
         # [FIXME] urlencode方法不能处理/
         return f"{self.url}?{urlencode(data)}"
 

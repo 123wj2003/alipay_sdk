@@ -161,6 +161,7 @@ class Pay(Comm):
     @isp_args
     def trade_cancel(self, out_trade_no=None, trade_no=None):
         """
+        统一收单交易撤销接口
         支付交易返回失败或支付系统超时，调用该接口撤销交易。
         如果此订单用户支付失败，支付宝系统会将此订单关闭；
         如果用户支付成功，支付宝系统会将此订单资金退还给用户。 
@@ -261,3 +262,16 @@ class Pay(Comm):
         if not trade_no and not out_trade_no:
             raise Exception("支付宝交易号，和商户订单号不能同时为空")
         return self._get_request_url()
+
+    @isp_args
+    def trade_order_settle(self, out_request_no, trade_no, royalty_parameters, operator_id=None):
+        """
+        统一收单交易结算接口
+        用于在线下场景交易支付后，进行卖家与第三方（如供应商或平台商）基于交易金额的结算。
+        参数：
+            out_request_no：string 64 结算请求流水号 开发者自行生成并保证唯一性
+            trade_no：string 64 支付宝订单号
+            royalty_parameters: Array 分账明细信息 详情参考：https://docs.open.alipay.com/api_1/alipay.trade.order.settle/
+            operator_id：string 64 操作员id
+        """
+        return self.post()
