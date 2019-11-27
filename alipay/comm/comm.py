@@ -21,7 +21,8 @@ def isp_args(func, method):
         提交方法的装饰器
         封装参数
         """
-        vals = tuple(list(args) + list(inspect.getfullargspec(func).defaults))
+        vals = tuple(list(args) + list(inspect.getfullargspec(
+            func).defaults if inspect.getfullargspec(func).defaults else []))
         ags = inspect.getfullargspec(func).args
         ags.pop(0)
         data = dict(zip_longest(ags, vals))
