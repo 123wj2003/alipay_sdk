@@ -103,6 +103,13 @@ class TestPay(unittest.TestCase):
         }])
         self.assertEqual(res["code"], "40004", res)
 
+    def test_product(self):
+        alipay = AliPay("2019091267287120", """-----BEGIN RSA PRIVATE KEY-----
+MIIEpAIBAAKCAQEAxTxXdQG9+VX1GcU/ETVQHAOIez1el6Vfc2zsXj9Wc3BoU8A29zRDjJPxbZXD0yNQYCzNkLXSnuL9ZDAOtRo5S4XMb92ZhMlEq+yedNSt4qCzEp7eLz+6uwsbNlgAzNlBUynW59kmSHVaCfQx1CkFcFjgZeiVAoJuGa8ujFWiX96h3Ec0MTK8G6uF2+Wl6Tlh8wiShivuw4fcWV4QKxWhTIJ+Dyi2tFszlwt0fJriI12x/xPT0dEr/U2p/8ZhtqlKAKrZJ9fjrGIkM5cSpQcnCEnmZDg6bYfE7NYCQNTIVjM6fXH3Ic1sNXQ5eG0WBRsMrvfiHBqJSU4J9fY1GXy5QQIDAQABAoIBADt9Ssew4dLtmULPmokfMm1wp168kOZea97NsLFwmyuwcNcp96oyKlmhWcV60ZjCYwDPIqWOIdvojRMF57m6EiP0VEg9Z4uEhWDxuo10hIoBfGGWZ1+K8lBuNiP7ASrIMIrb6MT/WyupsaGk9M6QHOLY+73hG+io3HqEux56ycHuRfpX17KU1t6MQzCmcx7C1XixjSsP07+6PW1ya+++1LiRGzRjhv1nu3VWWQyw3hpodbAXDN6CCGt+z+2RYDnqVp5Evq1NLwFe5tU8WDRcLw0eAuRH+wDXG9gO/fryJm51NUHBoaiCa+XkwzeKwc0zp/HGaApbDcSRKkaRAqCwvw0CgYEA5z8pzYoa/xscY2BNAGQFyx+gYErpnoxMYNyPTKHGzkWgvby4pfkMCaEf3v9Ddx5dQiXylCknil/EI5x9rtcdrEbZxsEf6siiNM+KMCMkgJHMXPWNw5zMckiinv0Uu6F5VxJImvoSf0o/J2xjeVZEdWU7OpzKTI8ge0LP9QMSIdMCgYEA2lktRzp3fcIOdUq2HN9077AaRceEYNMVVww9l6tpG8rvOR8T+s6E3Cnu+NkmvQVbZxLDwb5AxNxfMi0h5osfzlyKLfJ5LrGAZT31odxDtjUMfQ93M2vbG72PiGH2gNDO7J07KX1STZEtXQC0s56XiAAbTTuXka1OP1pupKr/OBsCgYEA4B2bShT7LRr9XGLMvgAyjTZNnIV9/adDruyUBVUU9H0O2FS7MEA6pmp+FQWYQS4wfBeDDo0EQVunIExeksDxhTH1hmdNo6Jncn9iEl081052nfFuP5MLogc7dJMbMO3CR9z0eR68Jpmys2ac0dAF8TD3QksK1UAx3sRV/8PGIvkCgYEAy8uqQC4o8z7Z4c3+1koWydSTYQfM3daGt32cS2DYtPEfgTAppNF3HkshWjDMQGasnjLcdYvOxi9txtZrKtQ1tpWW/zWut89CqLxA9Hcy1/EBnASAXIVRt72hJ0lQG4FJcX17h8kJtY5ISeLrxi7C/lQjJ130pSqduvH8DUPw/HsCgYB1mOY7YU0I8H1pXDG3FeBBWAk2Iu4kmzTbACpyiHhSfGDvMOdh7LEnLen5O0rjBteI+B4G5Qo5LcBzemzCsgNTLwbUqMQvU+1onsgHVhZ0u8LcuW06ZLmcHUMqmNBn23xsA6Z3aCZ//z08LJ6w2w6E3nSzy4JUyM62Cn/xSVigPw==
+-----END RSA PRIVATE KEY-----""",
+                        sign_type="rsa2")
+        print(alipay.pay.trade_query(trade_no="2019111022001469351413117626"))
+
 
 if __name__ == "__main__":
     suite = unittest.TestSuite()
@@ -114,6 +121,6 @@ if __name__ == "__main__":
     # suite.addTest(TestPay("test_trade_page_pay"))
     # suite.addTest(TestPay("test_trade_orderinfo_sync"))
     # suite.addTest(TestPay("test_trade_page_refund"))
-    suite.addTest(TestPay("test_trade_orer_settle"))
+    suite.addTest(TestPay("test_product"))
     runner = unittest.TextTestRunner(verbosity=2)
     runner.run(suite)
