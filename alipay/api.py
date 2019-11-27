@@ -4,6 +4,7 @@
 
 from alipay.comm import Comm
 from alipay.pay import Pay
+from alipay.koubei.kb import KouBei
 from Crypto.PublicKey import RSA
 
 SANDBOX_URL = "https://openapi.alipaydev.com/gateway.do"
@@ -47,3 +48,4 @@ class AliPay(object):
 
     comm = Comm()
     pay = Pay()
+    koubei = KouBei()
