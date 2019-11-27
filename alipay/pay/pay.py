@@ -5,13 +5,15 @@
 # 支付宝当面付
 # 包含 条码支付、扫码支付两个业务场景
 
+from functools import partial
 from alipay.comm import Comm, isp_args
-import inspect
+
+alipay = partial(isp_args, method='alipay')
 
 
 class Pay(Comm):
 
-    @isp_args
+    @alipay
     def trade_create(self, out_trade_no, total_amount, subject,
                      body=None, buyer_id=None, discountable_amount=None, seller_id=None,
                      goods_detail=None, product_code="FACE_TO_FACE_PAYMENT", operator_id=None, store_id=None, terminal_id=None,
@@ -22,7 +24,7 @@ class Pay(Comm):
         """
         return self.post()
 
-    @isp_args
+    @alipay
     def trade_pay(self, out_trade_no, scene, auth_code, subject,
                   product_code=None, buyer_id=None, seller_id=None,
                   total_amount=None, trans_currency=None, settle_currency=None,
@@ -58,7 +60,7 @@ class Pay(Comm):
         """
         return self.post()
 
-    @isp_args
+    @alipay
     def trade_close(self, trade_no=None, out_trade_no=None, operator_id=None):
         """
         统一收单交易关闭接口
@@ -71,7 +73,7 @@ class Pay(Comm):
             raise Exception("交易流水号和商户订单号不能同时为空")
         return self.post()
 
-    @isp_args
+    @alipay
     def trade_query(self, out_trade_no=None, trade_no=None, org_pid=None, query_options=None):
         """
         统一收单线下交易查询
@@ -85,7 +87,7 @@ class Pay(Comm):
             raise Exception("交易流水号和商户订单号不能同时为空")
         return self.post()
 
-    @isp_args
+    @alipay
     def trade_refund(self, refund_amount, out_trade_no=None, trade_no=None,
                      refund_currency=None, refund_reason=None, out_request_no=None,
                      operator_id=None, store_id=None, terminal_id=None, goods_detail=None,
@@ -110,7 +112,7 @@ class Pay(Comm):
             raise Exception("支付宝交易号，和商户订单号不能同时为空")
         return self.post()
 
-    @isp_args
+    @alipay
     def trade_fastpay_refund_query(self, out_request_no, trade_no=None, out_trade_no=None, org_pid=None):
         """
         统一收单交易退款查询
@@ -124,7 +126,7 @@ class Pay(Comm):
             raise Exception("支付宝交易号，和商户订单号不能同时为空")
         return self.post()
 
-    @isp_args
+    @alipay
     def trade_precreate(self, out_trade_no, total_amount, subject,
                         goods_detail=None, discountable_amount=None,
                         seller_id=None, body=None, product_code=None,
@@ -158,7 +160,7 @@ class Pay(Comm):
         """
         return self.post()
 
-    @isp_args
+    @alipay
     def trade_cancel(self, out_trade_no=None, trade_no=None):
         """
         统一收单交易撤销接口
@@ -172,7 +174,7 @@ class Pay(Comm):
             raise Exception("支付宝交易号，和商户订单号不能同时为空")
         return self.post()
 
-    @isp_args
+    @alipay
     def trade_page_pay(self, out_trade_no, total_amount, subject, product_code="FAST_INSTANT_TRADE_PAY",
                        body=None, time_expire=None, goods_detail=None, passback_params=None, extend_params=None,
                        goods_type=None, timeout_express=None, promo_params=None, royalty_info=None, sub_merchant=None,
@@ -220,7 +222,7 @@ class Pay(Comm):
         """
         return self._get_request_url()
 
-    @isp_args
+    @alipay
     def trade_orderinfo_sync(self, trade_no, out_request_no, biz_type, orig_request_no=None, order_biz_info=None):
         """
         支付宝订单信息同步接口
@@ -236,7 +238,7 @@ class Pay(Comm):
         """
         return self.post()
 
-    @isp_args
+    @alipay
     def trade_page_refund(self, out_request_no, refund_amount,
                           trade_no=None, out_trade_no=None, biz_type=None,
                           refund_reason=None, operator_id=None, store_id=None,
@@ -263,7 +265,7 @@ class Pay(Comm):
             raise Exception("支付宝交易号，和商户订单号不能同时为空")
         return self._get_request_url()
 
-    @isp_args
+    @alipay
     def trade_order_settle(self, out_request_no, trade_no, royalty_parameters, operator_id=None):
         """
         统一收单交易结算接口

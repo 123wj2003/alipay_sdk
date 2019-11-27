@@ -14,7 +14,7 @@ import json
 import traceback
 
 
-def isp_args(func):
+def isp_args(func, method):
 
     def inner(self, *args, **kwarg):
         """
@@ -27,7 +27,7 @@ def isp_args(func):
         data = dict(zip_longest(ags, vals))
         data.update(kwarg)
         data = {key: value for key, value in data.items() if value}
-        self.method = f"alipay.{func.__name__.replace('_','.')}"
+        self.method = f"{method}.{func.__name__.replace('_','.')}"
         self.data = data
         return func(self, *args, **kwarg)
     return inner
@@ -111,7 +111,6 @@ class Comm(object):
         data = {key: value for key, value in data.items() if value}
         data["biz_content"] = json.dumps(self.data)
         data["sign"] = self.gen(self.get_signstr(data))
-        print(data)
         # [FIXME] urlencode方法不能处理/
         return f"{self.url}?{urlencode(data)}"
 
