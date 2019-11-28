@@ -6,6 +6,7 @@
 
 from functools import partial
 from alipay.comm import Comm, isp_args
+from autils import String
 
 koubei = partial(isp_args, method="koubei")
 
@@ -50,6 +51,20 @@ class KouBei(Comm):
         :param out_request_no: 标识一次退款请求，同一笔订单多次退款需要保证唯一	
         :param refund_infos: 退货明细信息	
         :param reason: 退款原因描述	
+        :return: 返回数据
+        """
+        return self.post()
+
+    @koubei
+    def trade_ticket_ticketcode_send(self, isv_ma_list, send_order_no, send_token, order_no, request_id=String.generate_digits(32)):
+        """
+        码商发码成功回调接口
+
+        :param isv_ma_list: 需要发送的码列表，其中code表示串码码值，num表示码的可核销份数
+        :param send_order_no: 口碑商品发货单号
+        :param send_token: 口碑发码通知透传码商，码商需要跟发码通知获取到的参数一致
+        :param order_no: 口碑订单号
+        :param request_id: 请求id，唯一标识一次请求，不传则由SDK自动生成
         :return: 返回数据
         """
         return self.post()
