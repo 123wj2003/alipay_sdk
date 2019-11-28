@@ -95,3 +95,16 @@ class KouBei(Comm):
         :return: 返回数据
         """
         return self.post()
+
+    @koubei
+    def trade_ticket_ticketcode_query(self, ticket_code, shop_id):
+        """
+        口碑凭证码查询
+        根据凭证码查询口碑凭证核销状态、核销明细、价格、有效期等信息; 仅允许查询本商户下的凭证
+
+        :param ticket_code: 2位的券码，券码为纯数字，且唯一不重复
+        :param shop_id: 口碑门店id
+        :return: 返回数据
+        """
+
+        return self.post()

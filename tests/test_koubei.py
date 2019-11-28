@@ -66,6 +66,12 @@ class KoubeiTest(unittest.TestCase):
         res = self.alipay.koubei.trade_order_precreate("1112233", "12")
         self.assertIn(res['code'], ['40006'], msg=res)
 
+    def test_trade_ticket_ticketcode_query(self):
+        """
+        测试口碑凭证码查询
+        """
+        res = self.alipay.koubei.trade_ticket_ticketcode_query("1111", "222")
+        self.assertIn(res['code'], ['40006'], msg=res)
 
 
 if __name__ == "__main__":
@@ -76,5 +82,6 @@ if __name__ == "__main__":
     suite.addTest(KoubeiTest("test_koubei_trade_ticket_ticketcode_send"))
     suite.addTest(KoubeiTest("test_trade_ticket_ticketcode_delay"))
     suite.addTest(KoubeiTest("test_trade_order_precreate"))
+    suite.addTest(KoubeiTest("test_trade_ticket_ticketcode_query"))
     runner = unittest.TextTestRunner(verbosity=2)
     runner.run(suite)
