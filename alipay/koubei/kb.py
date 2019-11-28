@@ -68,3 +68,17 @@ class KouBei(Comm):
         :return: 返回数据
         """
         return self.post()
+
+    @koubei
+    def trade_ticket_ticketcode_delay(self, end_date, ticket_code, order_no, code_type='INTERNAL_CODE', request_id=String.generate_digits(32)):
+        """
+        口碑凭证延期接口
+
+        :param end_date: 延至日期
+        :param ticket_code: 凭证码
+        :param order_no: 口碑订单号
+        :param code_type: INTERNAL_CODE(券码),EXTERNAL_CODE(外部券码)
+        :param request_id: 请求id，唯一标识一次请求，不传则由SDK自动生成
+        :return: 返回数据
+        """
+        return self.post()
