@@ -15,6 +15,9 @@
 ### Main functionalities
 
 * 支付功能
+* 口碑功能
+
+> 由于沙箱环境缺少口碑权限支持，仅定义了接口功能，未进行完整的单元测试
 
 更多功能正在开发中...
 
@@ -46,12 +49,14 @@ alipay = Alipay("12345",private_key,private_key,
     sign_type="rsa2", ali_public_key=publick_key)
 ```
 
+> 0.0.3 版本起，支持直接传入密钥文本
+
 注意：支付宝公钥等可以使用官方提供的工具生成，但是对于非java平台的语言，需要补齐密钥格式中的格式头：
 
 ```txt
------BEGIN RSA PUBLIC KEY-----
+-----BEGIN RSA PRIVATE KEY-----
 ..........
------END RSA PUBLIC KEY-----
+-----END RSA PRIVATE KEY-----
 ```
 
 接下来就可以使用sdk来调用接口了，以统一下单接口为例：
