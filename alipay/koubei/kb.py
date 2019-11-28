@@ -82,3 +82,16 @@ class KouBei(Comm):
         :return: 返回数据
         """
         return self.post()
+
+    @koubei
+    def trade_order_precreate(self, out_order_no, shop_id, biz_type='POST_ORDER_PAY', request_id=String.generate_digits(32)):
+        """
+        口碑订单预下单
+
+        :param out_order_no: 外部订单号，即请求方订单的唯一标识。当biz_type传入POST_ORDER_PAY时，该字段为必选
+        :param shop_id: 口碑侧的门店id。当biz_type传入POST_ORDER_PAY时，该字段为必选
+        :param biz_type: 业务类型，当前支持：POST_ORDER_PAY 点餐后付订单支付码生成
+        :param request_id: 请求id，唯一标识一次请求，不传则由SDK自动生成
+        :return: 返回数据
+        """
+        return self.post()
