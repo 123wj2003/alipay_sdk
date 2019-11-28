@@ -28,7 +28,7 @@ def isp_args(func, method):
         data = dict(zip_longest(ags, vals))
         data.update(kwarg)
         data = {key: value for key, value in data.items() if value}
-        self.method = f"{method}.{func.__name__.replace('_','.')}"
+        self.method = "{}.{}".format(method, func.__name__.replace('_', '.'))
         self.data = data
         return func(self, *args, **kwarg)
     return inner
@@ -40,8 +40,6 @@ class Comm(object):
         self.url = instance.url
         self.appid = instance.appid
         self.app_private_key = instance.app_private_key
-        # print('-----')
-        # print(type(instance.app_private_key))
         self.ali_public_key = instance.ali_public_key
         self.sign_type = instance.sign_type
         self.alipay_root_cert_sn = instance.alipay_root_cert_sn
@@ -60,9 +58,9 @@ class Comm(object):
         if self.alipay_root_cert_sn and self.app_cert_sn:
             data["alipay_root_cert_sn"] = self.alipay_root_cert_sn
             data["app_cert_sn"] = self.app_cert_sn
-            return f"{'&'.join([f'{key}={data[key]}' for key in sorted(data) if data[key]])}"
-        else:
-            return f"{'&'.join([f'{key}={data[key]}' for key in sorted(data) if data[key]])}"
+            # return f"{'&'.join([f'{key}={data[key]}' for key in sorted(data) if data[key]])}"
+        # else:
+        return "{}".format('&'.join(['{}={}'.format(key, data[key]) for key in sorted(data) if data[key]]))
 
     def gen(self, str):
         """
@@ -100,7 +98,7 @@ class Comm(object):
         if type(response) is not dict:
             raise TypeError("服务器响应异常")
 
-        prefix = f"{self.method.replace('.','_')}_response"
+        prefix = "{}_response".format(self.method.replace('.', '_'))
         return response.get(prefix)
 
     def _get_request_url(self):
@@ -113,7 +111,7 @@ class Comm(object):
         data["biz_content"] = json.dumps(self.data)
         data["sign"] = self.gen(self.get_signstr(data))
         # [FIXME] urlencode方法不能处理/
-        return f"{self.url}?{urlencode(data)}"
+        return "{}?{}".format(self.url, urlencode(data))
 
     def post(self):
         """
@@ -125,7 +123,7 @@ class Comm(object):
             response = requests.get(self._get_request_url())
             return self._pre_response(response.json())
         except Exception as err:
-            raise Exception(f"接口请求错误：{traceback.format_exc()}")
+            raise Exception("接口请求错误：{}".format(traceback.format_exc()))
 
     def validate_sign(self, data):
         """
@@ -140,9 +138,9 @@ class Comm(object):
             sign_type = data.pop("sign_type")
             # 将剩余参数进行urldecode，并按字典序排序
             message = "&".join(
-                f"{k}={data[k]}" for k in sorted(data.keys())).encode("utf-8")
+                "{}={}".format(k, data[k]) for k in sorted(data.keys())).encode("utf-8")
             to_sign = SHA.new(
                 message) if sign_type == "RSA" else SHA256.new(message)
             return PKCS1_v1_5.new(self.ali_public_key).verify(to_sign, sign)
         except Exception as err:
-            raise Exception(f"异步验证失败：{traceback.format_exc()}")
+            raise Exception("异步验证失败：{}".format(traceback.format_exc()))

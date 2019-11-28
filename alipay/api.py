@@ -44,7 +44,7 @@ class AliPay(object):
         try:
             return RSA.importKey(key)
         except Exception as err:
-            raise ValueError(f"商户密钥或公钥导入失败，请检查密钥格式")
+            raise ValueError("商户密钥或公钥导入失败，请检查密钥格式")
 
     comm = Comm()
     pay = Pay()
