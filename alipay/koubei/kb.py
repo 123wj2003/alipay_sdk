@@ -9,6 +9,7 @@ from alipay.comm import Comm, isp_args
 
 koubei = partial(isp_args, method="koubei")
 
+
 class KouBei(Comm):
 
     @koubei
@@ -19,3 +20,23 @@ class KouBei(Comm):
             order_no: string 64 口碑订单号
         """
         return self.post()
+
+    @koubei
+    def trade_itemorder_buy(self, out_order_no, subject, biz_product,
+                            biz_scene, shop_id, buyer_id, total_amount,
+                            timeout=None, promo_params=None, item_order_details=None):
+        """
+        口碑商品交易购买接口
+
+        :param out_order_no: 商户订单号,64个字符以内、只能包含字母、数字、下划线；需保证在商户端不重复
+        :param subject: 订单标题
+        :param biz_product: 业务产品
+        :param biz_scene: 业务场景
+        :param shop_id: 门店ID
+        :param buyer_id: 买家支付宝ID
+        :param total_amount: 订单总金额，单位为元，精确到小数点后两位，必须等于费用之和
+        :param promo_params: 商户传入营销信息，具体值要和口碑约定，格式为json格式
+        :param item_order_details: 购买商品信息	
+        :return: 返回数据
+        """
+        return  self.post()

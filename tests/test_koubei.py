@@ -25,9 +25,18 @@ class KoubeiTest(unittest.TestCase):
         res = self.alipay.koubei.trade_itemorder_query("123456")
         self.assertIn(res['code'], ['40006'], msg=res)
 
+    def test_koubei_trade_itemorder_buy(self):
+        """
+        测试口碑商品交易购买接口
+        """
+        res = self.alipay.koubei.trade_itemorder_buy(
+            "11223344", "测试口碑购买", "ABC","测试场景","1", "abcde", 20)
+        self.assertIn(res['code'], ['40006'], msg=res)
+
 
 if __name__ == "__main__":
     suite = unittest.TestSuite()
     suite.addTest(KoubeiTest("test_koubei_trade_itemorder_query"))
+    suite.addTest(KoubeiTest("test_koubei_trade_itemorder_buy"))
     runner = unittest.TextTestRunner(verbosity=2)
     runner.run(suite)
