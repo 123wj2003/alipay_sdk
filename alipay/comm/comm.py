@@ -31,6 +31,7 @@ def isp_args(func, method):
         self.method = f"{method}.{func.__name__.replace('_','.')}"
         self.data = data
         return func(self, *args, **kwarg)
+    inner.__doc__ = func.__doc__
     return inner
 
 

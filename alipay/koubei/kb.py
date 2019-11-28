@@ -108,3 +108,19 @@ class KouBei(Comm):
         """
 
         return self.post()
+
+    @koubei
+    def trade_ticket_ticketcode_cancel(self, request_id, request_biz_no,
+                                       ticket_code, quantity=None, order_no=None,
+                                       code_type='INTERNAL_CODE'):
+        """
+        口碑凭证码撤销核销
+        根据核销请求号撤销核销凭证
+
+        :param request_id: 核销的外部请求号，指定撤销某一次的核销动作
+        :param request_biz_no: 业务请求号,一般为正向核销时使用的外部请求号
+        :param ticket_code: request_id对应核销的凭证码
+        :param quantity: 冲正份数，次卡业务必填，用于校验正反向份数相同
+        :return: 返回数据
+        """
+        return self.post()
