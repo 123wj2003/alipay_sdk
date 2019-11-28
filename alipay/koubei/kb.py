@@ -39,4 +39,17 @@ class KouBei(Comm):
         :param item_order_details: 购买商品信息	
         :return: 返回数据
         """
-        return  self.post()
+        return self.post()
+
+    @koubei
+    def trade_itemorder_refund(self, order_no, out_request_no, refund_infos, reason=None):
+        """
+        口碑商品交易退货接口
+
+        :param order_no: 口碑订单号		
+        :param out_request_no: 标识一次退款请求，同一笔订单多次退款需要保证唯一	
+        :param refund_infos: 退货明细信息	
+        :param reason: 退款原因描述	
+        :return: 返回数据
+        """
+        return self.post()
