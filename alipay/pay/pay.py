@@ -277,3 +277,20 @@ class Pay(Comm):
             operator_id：string 64 操作员id
         """
         return self.post()
+
+    @alipay
+    def trade_advance_consult(self, alipay_user_id, industry_product_code=None,
+                              sub_merchant_id=None, sub_merchant_type=None):
+        """
+        交易垫资咨询
+
+        商户通过此接口咨询，当前用户是否满足垫资服务条件
+
+        :param alipay_user_id: 必选	32	支付宝用户id	
+        :param industry_product_code: 可选	128	行业产品信息，咨询是，会从该产品对应的销售方案中获取相关垫资规则配置	
+        :param sub_merchant_id: 可选	64	子商户id	
+        :param sub_merchant_type: 可选	64	子商户类型
+        :return: 返回数据
+        """
+
+        return self.post()
