@@ -294,3 +294,40 @@ class Pay(Comm):
         """
 
         return self.post()
+
+    @alipay
+    def trade_wap_pay(self, subject, out_trade_no, total_amount, quit_url, product_code,
+                      body=None, timeout_express=None,
+                      time_expire=None, auth_token=None, goods_type='0',
+                      passback_params=None, promo_params=None, ExtendParams=None,
+                      merchant_order_no=None, enable_pay_channels=None, disable_pay_channels=None,
+                      store_id=None, specified_channel=None, business_params=None, ext_user_info=None):
+        """
+        手机网站支付接口2.0
+
+        外部商户创建订单并支付
+
+        :param subject: 必选	256	商品的标题/交易标题/订单标题/订单关键字等。
+        :param out_trade_no: 必选	64	商户网站唯一订单号
+        :param total_amount: 必选	9	订单总金额，单位为元，精确到小数点后两位，取值范围[0.01,100000000]
+        :param quit_url: 必选	400	用户付款中途退出返回商户网站的地址
+        :param product_code: 必选	64	销售产品码，商家和支付宝签约的产品码
+        :param body: 可选	128	对一笔交易的具体描述信息。如果是多种商品，请将商品描述字符串累加传给body。
+        :param timeout_express: 可选	该笔订单允许的最晚付款时间，逾期将关闭交易。取值范围：1m～15d。m-分钟，h-小时，d-天，1c-当天（1c-当天的情况下，无论交易何时创建，都在0点关闭）。 该参数数值不接受小数点， 如 1.5h，可转换为 90m。
+        :param time_expire: 可选	32	绝对超时时间，格式为yyyy-MM-dd HH:mm
+        :param auth_token: 可选	40	针对用户授权接口，获取用户相关数据时，用于标识用户授权关系
+        :param goods_type: 可选	2	商品主类型 :0-虚拟类商品,1-实物类商品 默认为0
+        :param passback_params: 可选	512	公用回传参数，如果请求时传递了该参数，则返回给商户时会回传该参数。支付宝只会在同步返回（包括跳转回商户网站）和异步通知时将该参数原样返回。本参数必须进行UrlEncode之后才可以发送给支付宝。
+        :param promo_params: 可选	512	优惠参数 注：仅与支付宝协商后可用
+        :param extend_params: 可选		业务扩展参数 https://docs.open.alipay.com/api_1/alipay.trade.wap.pay/
+        :param merchant_order_no: 可选	32	商户原始订单号，最大长度限制32位
+        :param enable_pay_channels: 可选	128	可用渠道，用户只能在指定渠道范围内支付 当有多个渠道时用“,”分隔 注，与disable_pay_channels互斥
+        :param disable_pay_channels: 可选	128	禁用渠道，用户不可用指定渠道支付 当有多个渠道时用“,”分隔 注，与enable_pay_channels互斥
+        :param store_id: 商户门店编号
+        :param specified_channel: 指定渠道，目前仅支持传入pcredit 若由于用户原因渠道不可用，用户可选择是否用其他渠道支付。
+        :param business_params: 可选	512	商户传入业务信息，具体值要和支付宝约定，应用于安全，营销等参数直传场景，格式为json格式
+        :param ext_user_info: 可选		外部指定买家
+        :return：返回数据
+        """
+
+        return self.post()

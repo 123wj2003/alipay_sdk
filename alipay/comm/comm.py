@@ -41,8 +41,6 @@ class Comm(object):
         self.url = instance.url
         self.appid = instance.appid
         self.app_private_key = instance.app_private_key
-        # print('-----')
-        # print(type(instance.app_private_key))
         self.ali_public_key = instance.ali_public_key
         self.sign_type = instance.sign_type
         self.alipay_root_cert_sn = instance.alipay_root_cert_sn

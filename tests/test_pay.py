@@ -127,6 +127,14 @@ MIIEpAIBAAKCAQEAxTxXdQG9+VX1GcU/ETVQHAOIez1el6Vfc2zsXj9Wc3BoU8A29zRDjJPxbZXD0yNQ
                                                sub_merchant_id="2088102122458832", sub_merchant_type="PARTNER")
         self.assertEqual(res['code'], '40006')
 
+    def test_trade_wap_pay(self):
+        """
+        测试 手机网站支付接口2.0
+
+        沙箱环境不支持
+        """        
+        pass
+
 
 if __name__ == "__main__":
     suite = unittest.TestSuite()
@@ -138,7 +146,8 @@ if __name__ == "__main__":
     # suite.addTest(TestPay("test_trade_page_pay"))
     # suite.addTest(TestPay("test_trade_orderinfo_sync"))
     # suite.addTest(TestPay("test_trade_page_refund"))
-    suite.addTest(TestPay("test_product"))
-    suite.addTest(TestPay("test_trade_advance_consult"))
+    # suite.addTest(TestPay("test_product"))
+    # suite.addTest(TestPay("test_trade_advance_consult"))
+    suite.addTest(TestPay("test_trade_wap_pay"))
     runner = unittest.TextTestRunner(verbosity=2)
     runner.run(suite)
