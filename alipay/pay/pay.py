@@ -346,3 +346,22 @@ class Pay(Comm):
         """
 
         return self.post()
+
+    @alipay
+    def pcredit_huabei_auth_settle_apply(self, agreement_no, pay_amount, out_request_no, alipay_user_id,
+                                         seller_id=None, need_terminated=None, extend_params=None):
+        """
+        花芝轻会员结算申请
+
+        用户已经开通花芝轻会员协议后，商户通过此接口解冻转支付用户冻结金额。传入金额必须小于等于冻结金额
+
+        :param agreement_no:支付宝系统中用以唯一标识用户签约记录的编号。
+        :param pay_amount:需要支付的金额，单位为：元（人民币），精确到小数点后两位
+        :param out_request_no:商户本次操作的请求流水号，用于标示请求流水的唯一性，不能包含除中文、英文、数字以外的字符，需要保证在商户端不重复。
+        :param alipay_user_id:买家在支付宝的用户id
+        :param seller_id: 商户的支付宝用户id。如果该值为空，则默认为商户签约账号对应的支付宝用户ID。
+        :param extend_params: 业务扩展参数
+        :return: 返回结果
+        """
+
+        return self.post()
