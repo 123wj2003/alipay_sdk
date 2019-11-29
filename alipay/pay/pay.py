@@ -408,3 +408,45 @@ class Pay(Comm):
         if not payee_logon_id and not payee_user_id:
             raise ValueError("收款方支付宝账号和用户号不能同时为空")
         return self.post()
+
+    @alipay
+    def alipay_trade_app_pay(self, total_amount, subject, out_trade_no,
+                             timeout_express=None, product_code=None, body=None,
+                             time_expire=None, goods_type=None, promo_params=None, passback_params=None,
+                             extend_params=None, merchant_order_no=None, enable_pay_channels=None,
+                             store_id=None, specified_channel=None, disable_pay_channels=None, goods_detail=None,
+                             ext_user_info=None,):
+        """
+        app支付接口2.0
+
+        外部商户APP唤起快捷SDK创建订单并支付
+
+        :param total_amount: 订单总金额，单位为元，精确到小数点后两位，取值范围[0.01,100000000]
+        :param subject: 商品的标题/交易标题/订单标题/订单关键字等。
+        :param out_trade_no: 商户网站唯一订单号
+        :param timeout_express: 该笔订单允许的最晚付款时间，逾期将关闭交易。取值范围：1m～15d。m-分钟，h-小时，d-天，1c-当天（1c-当天的情况下，无论交易何时创建，都在0点关闭）。 该参数数值不接受小数点， 如 1.5h，可转换为 90m
+        :param product_code: 销售产品码，商家和支付宝签约的产品码
+        :param body: 对一笔交易的具体描述信息。如果是多种商品，请将商品描述字符串累加传给body。
+        :param time_expire: 绝对超时时间，格式为yyyy-MM-dd HH:mm。
+        :param goods_type: 商品主类型 :0-虚拟类商品,1-实物类商品
+        :param promo_params: 优惠参数 注：仅与支付宝协商后可用
+        :param passback_params: 公用回传参数，如果请求时传递了该参数，则返回给商户时会回传该参数。支付宝只会在同步返回（包括跳转回商户网站）和异步通知时将该参数原样返回。本参数必须进行UrlEncode之后才可以发送给支付宝。
+        :param extend_params: 业务扩展参数
+        :param merchant_order_no: 商户原始订单号，最大长度限制32位
+        :param enable_pay_channels: 可用渠道，用户只能在指定渠道范围内支付
+                                    当有多个渠道时用“,”分隔
+                                    注，与disable_pay_channels互斥
+        :param store_id: 商户门店编号
+        :param specified_channel: 指定渠道，目前仅支持传入pcredit
+                                  若由于用户原因渠道不可用，用户可选择是否用其他渠道支付。
+                                  注：该参数不可与花呗分期参数同时传入
+        :param disable_pay_channels: 禁用渠道，用户不可用指定渠道支付
+                                     当有多个渠道时用“,”分隔 注，与enable_pay_channels互斥
+        :param goods_detail: 订单包含的商品列表信息，json格式，其它说明详见商品明细说明
+        :param ext_user_info: 外部指定买家
+        :param business_params: 商户传入业务信息，具体值要和支付宝约定，应用于安全，营销等参数直传场景，格式为json格式
+        :param agreement_sign_params: 签约参数。如果希望在sdk中支付并签约，需要在这里传入签约信息
+        :return 返回结果
+        """
+
+        self.post()
