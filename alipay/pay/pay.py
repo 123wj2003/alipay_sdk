@@ -331,3 +331,18 @@ class Pay(Comm):
         """
 
         return self.post()
+
+    @alipay
+    def commerce_transport_nfccard_send(self, issue_org_no, card_no, card_status):
+        """
+        NFC用户卡信息同步
+
+        当NFC卡状态或信息发生变更时，可通过该服务同步到支付宝
+
+        :param issue_org_no: 必选	32	发卡机构代码
+        :param card_no: 必选	128	卡号
+        :param card_status: 必选	16	卡片状态（FREEZE：冻结，CANCEL：销卡）	
+        :return：返回数据
+        """
+
+        return self.post()
